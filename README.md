@@ -37,11 +37,11 @@ Directory structure after extraction:
 ### 2. Download Pretrained Diffusion Models
 
 - **Stable Diffusion v1.5**  
-  Download from [CompVis/stable-diffusion-v1-5](https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5)  
+  Download from [Hugging Face](https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5)  
   Place it in: `/your/path/to/ckpts/stable-diffusion-v1-5/`
 
 - **InstructPix2Pix**  
-  Download from [timbrooks/instruct-pix2pix](https://huggingface.co/timbrooks/instruct-pix2pix)  
+  Download from [Hugging Face](https://huggingface.co/timbrooks/instruct-pix2pix)  
   Place it in: `/your/path/to/ckpts/instruct-pix2pix/`
 
 
