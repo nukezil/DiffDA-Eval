@@ -1,0 +1,20 @@
+exp_name: GEN_diffuse_mix_cub_shot5
+task: generation
+seed: 0
+
+data:
+  dataset: Birds
+  root: /your/path/to/datasets
+  resolution: 256
+  num_classes: 200
+  examples_per_class: 5
+
+generation:
+  method: DiffuseMix
+  sd_model: /your/path/to/ckpts/instruct-pix2pix
+  scheduler: EulerAncestral
+  num_inference_steps: 100
+  augment_ratio: 5
+  guidance_scale: 4.0
+  root_dir: /your/path/to/DiffDA-Eval/generated_images
+  fractal_img_dir: /your/path/to/datasets/fractal_images

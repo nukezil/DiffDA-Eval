@@ -1,0 +1,28 @@
+exp_name: CLS_real_guidance_skin_shot50
+task: classification
+seed: 0
+
+data:
+  dataset: Skin-50
+  root: /your/path/to/datasets
+  resolution: 224
+  num_classes: 7
+  examples_per_class: -1
+
+generation:
+  method: RealGuidance
+  exp: real_guidance_skin_sd15_seed42
+  root_dir: /your/path/to/DiffDA-Eval/generated_images
+
+model:
+  arch: resnet50
+  weights: None
+
+training:
+  batch_size: 256
+  optimizer: sgd
+  lr: 0.01
+  momentum: 0.9
+  weight_decay: 5e-4
+  num_epochs: 100
+  criterion: CrossEntropy

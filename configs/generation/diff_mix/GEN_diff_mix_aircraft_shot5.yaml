@@ -1,0 +1,27 @@
+exp_name: GEN_diff_mix_aircraft_shot5
+task: generation
+seed: 0
+
+data:
+  dataset: Aircraft
+  root: /your/path/to/datasets
+  resolution: 512
+  num_classes: 100
+  examples_per_class: 5
+
+generation:
+  method: DiffMix
+  sd_model: /your/path/to/ckpts/stable-diffusion-v1-5
+  scheduler: DPMSolver++
+  num_inference_steps: 25
+  augment_ratio: 5
+  strength: 0.9
+  root_dir: /your/path/to/DiffDA-Eval/generated_images
+  ti_embeds:
+    0: /your/path/to/DiffDA-Eval/finetuned_generators/text_inversion/Aircraft_shot5_seed0
+    1: /your/path/to/DiffDA-Eval/finetuned_generators/text_inversion/Aircraft_shot5_seed1
+    2: /your/path/to/DiffDA-Eval/finetuned_generators/text_inversion/Aircraft_shot5_seed2
+  db_lora_weights:
+    0: /your/path/to/DiffDA-Eval/finetuned_generators/dreambooth/TEmb_Aircraft_shot5_seed0
+    1: /your/path/to/DiffDA-Eval/finetuned_generators/dreambooth/TEmb_Aircraft_shot5_seed1
+    2: /your/path/to/DiffDA-Eval/finetuned_generators/dreambooth/TEmb_Aircraft_shot5_seed2

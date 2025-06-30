@@ -1,0 +1,18 @@
+# PyCharm
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Developing directory
+developing/
+new_configs/
+/scripts/

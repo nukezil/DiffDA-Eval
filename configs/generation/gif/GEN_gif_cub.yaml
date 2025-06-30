@@ -1,0 +1,21 @@
+exp_name: GEN_gif_cub
+task: generation
+seed: 0
+
+data:
+  dataset: Birds
+  root: /your/path/to/datasets
+  resolution: 512
+  num_classes: 200
+  examples_per_class: -1
+
+generation:
+  method: GIF
+  sd_model: /your/path/to/ckpts/stable-diffusion-v1-5
+  clip_model: /your/path/to/ckpts/CLIP/ViT-B-32.pt
+  scheduler: DPMSolver++
+  num_inference_steps: 25
+  augment_ratio: 5
+  constraint_value: 0.8
+  strength: 0.9
+  root_dir: /your/path/to/DiffDA-Eval/generated_images

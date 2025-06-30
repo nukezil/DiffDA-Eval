@@ -1,0 +1,23 @@
+exp_name: CLS_base_aircraft_shot1
+task: classification
+seed: 0
+
+data:
+  dataset: Aircraft
+  root: /your/path/to/datasets
+  resolution: 224
+  num_classes: 100
+  examples_per_class: 1
+
+model:
+  arch: resnet50
+  weights: "IMAGENET1K_V1"
+
+training:
+  batch_size: 256
+  optimizer: sgd
+  lr: 0.1
+  momentum: 0.9
+  weight_decay: 5e-4
+  num_epochs: 128
+  criterion: LabelSmoothing

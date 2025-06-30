@@ -1,0 +1,32 @@
+exp_name: CLS_diff_aug_aircraft_shot10
+task: classification
+seed: 0
+
+data:
+  dataset: Aircraft
+  root: /your/path/to/datasets
+  resolution: 224
+  num_classes: 100
+  examples_per_class: 10
+
+generation:
+  method: DiffAug
+  exp:
+    0: diff_aug_aircraft_shot10_sd15_seed0
+    1: diff_aug_aircraft_shot10_sd15_seed1
+    2: diff_aug_aircraft_shot10_sd15_seed2
+  root_dir: /your/path/to/DiffDA-Eval/generated_images
+  replace_prob: 0.2
+
+model:
+  arch: resnet50
+  weights: "IMAGENET1K_V1"
+
+training:
+  batch_size: 256
+  optimizer: sgd
+  lr: 0.1
+  momentum: 0.9
+  weight_decay: 5e-4
+  num_epochs: 128
+  criterion: LabelSmoothing

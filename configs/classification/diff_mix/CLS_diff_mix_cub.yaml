@@ -1,0 +1,31 @@
+exp_name: CLS_diff_mix_cub
+task: classification
+seed: 0
+
+data:
+  dataset: Birds
+  root: /your/path/to/datasets
+  resolution: 224
+  num_classes: 200
+  examples_per_class: -1
+
+generation:
+  method: DiffMix
+  exp: diff_mix_cub_all_sd15_seed0
+  root_dir: /your/path/to/DiffDA-Eval/generated_images
+  replace_prob: 0.1
+  strength: 0.9
+  gamma: 0.5
+
+model:
+  arch: resnet50
+  weights: None
+
+training:
+  batch_size: 256
+  optimizer: sgd
+  lr: 0.1
+  momentum: 0.9
+  weight_decay: 5e-4
+  num_epochs: 128
+  criterion: LabelSmoothing

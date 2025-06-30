@@ -1,0 +1,32 @@
+exp_name: CLS_da_fusion_aircraft_shot10
+task: classification
+seed: 0
+
+data:
+  dataset: Aircraft
+  root: /your/path/to/datasets
+  resolution: 224
+  num_classes: 200
+  examples_per_class: 10
+
+generation:
+  method: DAFusion
+  exp:
+    0: da_fusion_aircraft_shot10_sd15_seed0_05061541
+    1: da_fusion_aircraft_shot10_sd15_seed1_05151239
+    2: da_fusion_aircraft_shot10_sd15_seed2_05151318
+  root_dir: /your/path/to/DiffDA-Eval/generated_images
+  replace_prob: 0.5
+
+model:
+  arch: resnet50
+  weights: "IMAGENET1K_V1"
+
+training:
+  batch_size: 256
+  optimizer: sgd
+  lr: 0.1
+  momentum: 0.9
+  weight_decay: 5e-4
+  num_epochs: 128
+  criterion: LabelSmoothing

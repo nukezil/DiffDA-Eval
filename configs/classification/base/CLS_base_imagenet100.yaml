@@ -1,0 +1,23 @@
+exp_name: CLS_base_imagenet100
+task: classification
+seed: 0
+
+data:
+  dataset: ImageNet100
+  root: /your/path/to/datasets
+  resolution: 224
+  num_classes: 100
+  examples_per_class: -1
+
+model:
+  arch: resnet50
+  weights: None
+
+training:
+  batch_size: 256
+  optimizer: sgd
+  lr: 0.1
+  momentum: 0.9
+  weight_decay: 1e-4
+  num_epochs: 100
+  criterion: CrossEntropy

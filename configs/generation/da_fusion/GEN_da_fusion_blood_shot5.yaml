@@ -1,0 +1,20 @@
+exp_name: GEN_da_fusion_blood_shot5
+task: generation
+seed: 0
+
+data:
+  dataset: Blood-5
+  root: /your/path/to/datasets
+  resolution: 512
+  num_classes: 8
+  examples_per_class: -1
+
+generation:
+  method: DAFusion
+  sd_model: /your/path/to/ckpts/stable-diffusion-v1-5
+  scheduler: DPMSolver++
+  num_inference_steps: 25
+  augment_ratio: 5
+  strength: [0.25, 0.5, 0.75, 1.0]
+  root_dir: /your/path/to/DiffDA-Eval/generated_images
+  ti_embeds: /your/path/to/DiffDA-Eval/finetuned_generators/text_inversion/Blood-5_shot-1_seed0
