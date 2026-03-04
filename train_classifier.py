@@ -23,7 +23,23 @@ def main():
     parser.add_argument("--utilize_way", type=str, default=None)
     args = parser.parse_args()
 
+    # Load and resolve environment variables in the config
     cfg = OmegaConf.load(args.config)
+    
+    # Resolve environment variables in the config
+    def resolve_env_vars(cfg):
+        if isinstance(cfg, dict):
+            return {k: resolve_env_vars(v) for k, v in cfg.items()}
+        elif isinstance(cfg, list):
+            return [resolve_env_vars(item) for item in cfg]
+        elif isinstance(cfg, str) and cfg.startswith('${') and cfg.endswith('}'):
+            env_var = cfg[2:-1]
+            return os.environ.get(env_var, cfg)
+        else:
+            return cfg
+    
+    cfg = OmegaConf.create(resolve_env_vars(OmegaConf.to_container(cfg, resolve=True)))
+    
     cfg.seed = args.seed
     set_all_seeds(cfg.seed)
     if args.data_root is not None:
