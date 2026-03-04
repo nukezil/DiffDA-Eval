@@ -1,5 +1,4 @@
 from datetime import datetime
-import omegaconf
 from omegaconf import OmegaConf
 import argparse
 import wandb
@@ -25,20 +24,32 @@ def main():
 
     # Load and resolve environment variables in the config
     cfg = OmegaConf.load(args.config)
-    
+
     # Resolve environment variables in the config
+    _pattern = re.compile(r"\$\{([^}]+)\}")
+
     def resolve_env_vars(cfg):
         if isinstance(cfg, dict):
             return {k: resolve_env_vars(v) for k, v in cfg.items()}
         elif isinstance(cfg, list):
             return [resolve_env_vars(item) for item in cfg]
-        elif isinstance(cfg, str) and cfg.startswith('${') and cfg.endswith('}'):
-            env_var = cfg[2:-1]
-            return os.environ.get(env_var, cfg)
+        elif isinstance(cfg, str):
+            def repl(m):
+                var = m.group(1)
+                return os.environ.get(var, m.group(0))
+
+            return _pattern.sub(repl, cfg)
         else:
             return cfg
-    
-    cfg = OmegaConf.create(resolve_env_vars(OmegaConf.to_container(cfg, resolve=True)))
+
+    # First convert to container without resolving to avoid interpolation errors
+    cfg_dict = OmegaConf.to_container(cfg, resolve=False)
+    # Then resolve environment variables
+    cfg_dict = resolve_env_vars(cfg_dict)
+    # Finally create a new OmegaConf object
+    cfg = OmegaConf.create(cfg_dict)
+
+    print(cfg)
     
     cfg.seed = args.seed
     set_all_seeds(cfg.seed)

@@ -1,6 +1,4 @@
-import os
 from datetime import datetime
-import omegaconf
 from omegaconf import OmegaConf
 import argparse
 from tqdm import tqdm
@@ -93,25 +91,33 @@ def multi_gpus_main(args):
     cfg = OmegaConf.load(args.config)
     
     # Resolve environment variables in the config
+    _pattern = re.compile(r"\$\{([^}]+)\}")
     def resolve_env_vars(cfg):
         if isinstance(cfg, dict):
             return {k: resolve_env_vars(v) for k, v in cfg.items()}
         elif isinstance(cfg, list):
             return [resolve_env_vars(item) for item in cfg]
-        elif isinstance(cfg, str) and cfg.startswith('${') and cfg.endswith('}'):
-            env_var = cfg[2:-1]
-            return os.environ.get(env_var, cfg)
+        elif isinstance(cfg, str):
+            def repl(m):
+                var = m.group(1)
+                return os.environ.get(var, m.group(0))
+            return _pattern.sub(repl, cfg)
         else:
             return cfg
     
-    cfg = OmegaConf.create(resolve_env_vars(OmegaConf.to_container(cfg, resolve=True)))
-    
+    # First convert to container without resolving to avoid interpolation errors
+    cfg_dict = OmegaConf.to_container(cfg, resolve=False)
+    # Then resolve environment variables
+    cfg_dict = resolve_env_vars(cfg_dict)
+    # Finally create a new OmegaConf object
+    cfg = OmegaConf.create(cfg_dict)
+
+    print(cfg)
+
     cfg.num_gpus = args.num_gpus
     if args.seed is not None:
         cfg.seed = args.seed
     set_all_seeds(cfg.seed)
-    if args.data_root is not None:
-        cfg.data.root = args.data_root
 
     # Override generation parameters
     if args.strength is not None:
@@ -176,7 +182,6 @@ def multi_gpus_main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, default="./configs/base.yaml")
-    parser.add_argument("--data_root", type=str, default="/data/lzk/datasets")
     parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--output_dir", type=str, default="./out")  # for log files instead of generated images
     parser.add_argument("--resume_task", type=str, default=None)
