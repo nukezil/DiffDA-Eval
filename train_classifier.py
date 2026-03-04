@@ -48,9 +48,8 @@ def main():
     # Override the path of generated samples
     if OmegaConf.select(cfg, "generation") is not None:
         if isinstance(cfg.generation.exp, str):
-            pass
-        elif isinstance(cfg.generation.exp, omegaconf.dictconfig.DictConfig):
-            cfg.generation.exp = cfg.generation.exp[cfg.seed]
+            # Replace seed placeholder in the path with the actual seed value
+            cfg.generation.exp = cfg.generation.exp.replace("seed0", f"seed{cfg.seed}")
         else:
             raise ValueError(f"Unknown generation.exp: {cfg.generation.exp}")
 

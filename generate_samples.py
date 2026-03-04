@@ -26,6 +26,7 @@ def process_subset(rank, train_dset, cfg):
     torch.cuda.set_device(device)
     print(f"Process {rank} using device {device} to augment {len(train_dset)} samples")
 
+    os.environ["WANDB_MODE"] = "offline"
     run = wandb.init(
         project="DiffDA-Gen",
         group=cfg.exp_name,
@@ -121,17 +122,15 @@ def multi_gpus_main(args):
     # For Textural Inversion
     if OmegaConf.select(cfg, "generation.ti_embeds") is not None:
         if isinstance(cfg.generation.ti_embeds, str):
-            pass
-        elif isinstance(cfg.generation.ti_embeds, omegaconf.dictconfig.DictConfig):
-            cfg.generation.ti_embeds = cfg.generation.ti_embeds[cfg.seed]
+            # Replace seed placeholder in the path with the actual seed value
+            cfg.generation.ti_embeds = cfg.generation.ti_embeds.replace("seed0", f"seed{cfg.seed}")
         else:
             raise ValueError(f"Unknown generation.ti_embeds: {cfg.generation.ti_embeds}")
     # For DreamBooth
     if OmegaConf.select(cfg, "generation.db_lora_weights") is not None:
         if isinstance(cfg.generation.db_lora_weights, str):
-            pass
-        elif isinstance(cfg.generation.db_lora_weights, omegaconf.dictconfig.DictConfig):
-            cfg.generation.db_lora_weights = cfg.generation.db_lora_weights[cfg.seed]
+            # Replace seed placeholder in the path with the actual seed value
+            cfg.generation.db_lora_weights = cfg.generation.db_lora_weights.replace("seed0", f"seed{cfg.seed}")
         else:
             raise ValueError(f"Unknown generation.db_lora_weights: {cfg.generation.db_lora_weights}")
 

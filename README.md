@@ -81,17 +81,9 @@ $DIFFDA_ROOT/datasets/
 
 All configuration files in the `configs/` directory should use paths relative to the environment variables. For example:
 
-```yaml
-data:
-  root: ${DIFFDA_ROOT}/datasets  # Will be resolved at runtime
-
-generation:
-  sd_model: ${DIFFDA_ROOT}/ckpts/stable-diffusion-v1-5
-  root_dir: ${DIFFDA_ROOT}/DiffDA-Eval/generated_images
-```
-
 The configuration system automatically resolves `${DIFFDA_ROOT}` placeholders to the actual value of the environment variable. This makes the configuration files portable across different systems without any modifications.
 
+For paths that depend on the seed value, we can use a string template with "seed0" as a placeholder. The system will automatically replace "seed0" with the actual seed value at runtime. 
 
 ## 🚀 Running the Pipeline
 
