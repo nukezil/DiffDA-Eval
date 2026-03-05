@@ -1,6 +1,6 @@
 # DiffDA-Eval
 
-**Official Codebase for our IJCV Paper**  
+**Official Codebase for our [IJCV Paper](https://link.springer.com/article/10.1007/s11263-026-02754-x)**  
 📄 _Diffusion-Based Data Augmentation for Image Recognition: A Systematic Analysis and Evaluation_
 > **Abstract：** Diffusion-based data augmentation (DiffDA) has emerged as a promising approach to improving classification performance under data scarcity. However, existing works vary significantly in task configurations, model choices, and experimental pipelines, making it difficult to fairly compare methods or assess their effectiveness across different scenarios. Moreover, there remains a lack of systematic understanding of the full DiffDA workflow. In this work, we introduce UniDiffDA, a unified analytical framework that decomposes DiffDA methods into three core components: model fine-tuning, sample generation, and sample utilization. This perspective enables us to identify key differences among existing methods and clarify the overall design space. Building on this framework, we develop a comprehensive and fair evaluation protocol, benchmarking representative DiffDA methods across diverse low-data classification tasks. Extensive experiments reveal the relative strengths and limitations of different DiffDA strategies and offer practical insights into method design and deployment. All methods are re-implemented within a unified codebase, with full release of code and configurations to ensure reproducibility and to facilitate future research.
 
@@ -107,7 +107,9 @@ Generate synthetic samples by loading the appropriate config file.
 For example, to generate samples on the **CUB (Birds)** dataset (shot-5 task) using the **Diff-Mix** method:
 
 ```bash
-CUDA_VISIBLE_DEVICES=0 python generate_samples.py --config configs/generation/diff_mix/GEN_diff_mix_cub_shot5.yaml
+CUDA_VISIBLE_DEVICES=0 python generate_samples.py --config configs/generation/diff_mix/GEN_diff_mix_cub_shot5.yaml # single-GPU run
+
+CUDA_VISIBLE_DEVICES=0,1,2,3 python generate_samples.py --config configs/generation/diff_mix/GEN_diff_mix_cub_shot5.yaml --num_gpus 4 # multi-GPU run
 ```
 
 ### Stage 3: Classifier Training
