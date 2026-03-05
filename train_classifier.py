@@ -12,7 +12,6 @@ from utils.misc import *
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, default="./configs/base.yaml")
-    parser.add_argument("--data_root", type=str, default="/data/lzk/datasets")
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--output_dir", type=str, default="./out")
     parser.add_argument("--generation_exp", type=str, default=None)
@@ -53,8 +52,6 @@ def main():
     
     cfg.seed = args.seed
     set_all_seeds(cfg.seed)
-    if args.data_root is not None:
-        cfg.data.root = args.data_root
 
     # Override the path of generated samples
     if OmegaConf.select(cfg, "generation") is not None:

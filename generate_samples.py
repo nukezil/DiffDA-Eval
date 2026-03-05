@@ -52,8 +52,9 @@ def process_subset(rank, train_dset, cfg):
 
     gen_task_path = os.path.join(cfg.generation.root_dir, cfg.data.dataset, cfg.exp_name)  # path to store generated images
     link_path = os.path.join(cfg.generation.root_dir, cfg.data.dataset, cfg.exp_name_no_time)
-    os.makedirs(gen_task_path, exist_ok=True)
-    os.symlink(gen_task_path, link_path, target_is_directory=True)
+    if rank == 0:
+        os.makedirs(gen_task_path, exist_ok=True)
+        os.symlink(gen_task_path, link_path, target_is_directory=True)
     gen_class_paths = {}
 
     for sample_idx in tqdm(range(cfg.start_idx, len(train_dset)), disable=(cfg.num_gpus>1)):
