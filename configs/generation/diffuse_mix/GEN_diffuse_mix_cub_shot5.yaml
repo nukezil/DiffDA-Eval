@@ -4,17 +4,17 @@ seed: 0
 
 data:
   dataset: Birds
-  root: /your/path/to/datasets
+  root: ${DIFFDA_ROOT}/datasets
   resolution: 256
   num_classes: 200
   examples_per_class: 5
 
 generation:
   method: DiffuseMix
-  sd_model: /your/path/to/ckpts/instruct-pix2pix
+  sd_model: ${DIFFDA_ROOT}/ckpts/instruct-pix2pix
   scheduler: EulerAncestral
   num_inference_steps: 100
   augment_ratio: 5
   guidance_scale: 4.0
-  root_dir: /your/path/to/DiffDA-Eval/generated_images
-  fractal_img_dir: /your/path/to/datasets/fractal_images
+  root_dir: ${DIFFDA_ROOT}/DiffDA-Eval/generated_images
+  fractal_img_dir: ${DIFFDA_ROOT}/datasets/fractal_images

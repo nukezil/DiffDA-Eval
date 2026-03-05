@@ -3,16 +3,18 @@ task: classification
 seed: 0
 
 data:
-  dataset: Birds
-  root: /your/path/to/datasets
-  resolution: 224
+  dataset: CUB
+  root: ${DIFFDA_ROOT}/datasets
+  resolution: 256
   num_classes: 200
   examples_per_class: 5
 
 generation:
   method: DiffuseMix
-  exp: diffuse_mix_cub_sd15_seed42
-  root_dir: /your/path/to/DiffDA-Eval/generated_images
+  exp: GEN_diffuse_mix_cub_shot5_seed0
+  root_dir: ${DIFFDA_ROOT}/DiffDA-Eval/generated_images
+  utilize_way: GRR
+  replace_prob: 0.3
 
 model:
   arch: resnet50

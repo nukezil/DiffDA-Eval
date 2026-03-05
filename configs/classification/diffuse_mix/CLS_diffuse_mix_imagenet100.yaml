@@ -4,25 +4,26 @@ seed: 0
 
 data:
   dataset: ImageNet100
-  root: /your/path/to/datasets
-  resolution: 224
+  root: ${DIFFDA_ROOT}/datasets
+  resolution: 256
   num_classes: 100
   examples_per_class: -1
 
 generation:
   method: DiffuseMix
-  exp: diffuse_mix_imagenet100_sd15_seed42
-  root_dir: /your/path/to/DiffDA-Eval/generated_images
+  exp: GEN_diffuse_mix_imagenet100_seed0
+  root_dir: ${DIFFDA_ROOT}/DiffDA-Eval/generated_images
+  utilize_way: FC
 
 model:
   arch: resnet50
-  weights: None
+  weights: "IMAGENET1K_V1"
 
 training:
-  batch_size: 256
+  batch_size: 32
   optimizer: sgd
   lr: 0.1
   momentum: 0.9
-  weight_decay: 1e-4
-  num_epochs: 100
-  criterion: CrossEntropy
+  weight_decay: 5e-4
+  num_epochs: 128
+  criterion: LabelSmoothing
