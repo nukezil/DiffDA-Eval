@@ -15,7 +15,7 @@ generation:
   root_dir: ${DIFFDA_ROOT}/DiffDA-Eval/generated_images
   utilize_way: GRR
   replace_prob: 0.7
-  strength: 0.9
+  strength: 0.7
   gamma: 0.5
 
 model:
