@@ -4,25 +4,18 @@ seed: 0
 
 data:
   dataset: Aircraft
-  root: /your/path/to/datasets
+  root: ${DIFFDA_ROOT}/datasets
   resolution: 512
   num_classes: 100
   examples_per_class: 1
 
 generation:
   method: DiffII
-  sd_model: /your/path/to/ckpts/stable-diffusion-v1-5
-  scheduler: DPMSolver++
+  sd_model: ${DIFFDA_ROOT}/ckpts/stable-diffusion-v1-5
   num_inference_steps: 25
   augment_ratio: 5
   split_ratio: 0.3
-  root_dir: /your/path/to/DiffDA-Eval/generated_images
-  inv_cache_dir: /your/path/to/DiffDA-Eval/cache/ddim_inversions
-  ti_embeds:
-    0: /your/path/to/DiffDA-Eval/finetuned_generators/text_inversion/Aircraft_shot1_seed0
-    1: /your/path/to/DiffDA-Eval/finetuned_generators/text_inversion/Aircraft_shot1_seed1
-    2: /your/path/to/DiffDA-Eval/finetuned_generators/text_inversion/Aircraft_shot1_seed2
-  db_lora_weights:
-    0: /your/path/to/DiffDA-Eval/finetuned_generators/dreambooth/TEmb_Aircraft_shot1_seed0
-    1: /your/path/to/DiffDA-Eval/finetuned_generators/dreambooth/TEmb_Aircraft_shot1_seed1
-    2: /your/path/to/DiffDA-Eval/finetuned_generators/dreambooth/TEmb_Aircraft_shot1_seed2
+  root_dir: ${DIFFDA_ROOT}/DiffDA-Eval/generated_images
+  inv_cache_dir: ${DIFFDA_ROOT}/DiffDA-Eval/cache/ddim_inversions
+  ti_embeds: ${DIFFDA_ROOT}/DiffDA-Eval/finetuned_generators/text_inversion/Aircraft_shot1_seed0
+  db_lora_weights: ${DIFFDA_ROOT}/DiffDA-Eval/finetuned_generators/dreambooth/TEmb_Aircraft_shot1_seed0
