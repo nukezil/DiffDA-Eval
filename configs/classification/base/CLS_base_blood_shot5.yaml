@@ -4,7 +4,7 @@ seed: 0
 
 data:
   dataset: Blood-5
-  root: /your/path/to/datasets
+  root: ${DIFFDA_ROOT}/datasets
   resolution: 224
   num_classes: 8
   examples_per_class: -1
@@ -14,7 +14,7 @@ model:
   weights: None
 
 training:
-  batch_size: 256
+  batch_size: 32
   optimizer: sgd
   lr: 0.01
   momentum: 0.9

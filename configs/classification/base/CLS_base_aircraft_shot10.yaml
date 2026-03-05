@@ -4,7 +4,7 @@ seed: 0
 
 data:
   dataset: Aircraft
-  root: /your/path/to/datasets
+  root: ${DIFFDA_ROOT}/datasets
   resolution: 224
   num_classes: 100
   examples_per_class: 10
