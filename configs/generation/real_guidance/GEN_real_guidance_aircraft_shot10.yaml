@@ -1,13 +1,13 @@
-exp_name: GEN_real_guidance_skin_shot50
+exp_name: GEN_real_guidance_aircraft_shot10
 task: generation
 seed: 0
 
 data:
-  dataset: Skin-50
+  dataset: Aircraft
   root: ${DIFFDA_ROOT}/datasets
   resolution: 512
-  num_classes: 7
-  examples_per_class: -1
+  num_classes: 100
+  examples_per_class: 10
 
 generation:
   method: RealGuidance
@@ -15,5 +15,5 @@ generation:
   scheduler: DPMSolver++
   num_inference_steps: 25
   augment_ratio: 5
-  strength: 0.3
+  strength: 0.1
   root_dir: ${DIFFDA_ROOT}/DiffDA-Eval/generated_images

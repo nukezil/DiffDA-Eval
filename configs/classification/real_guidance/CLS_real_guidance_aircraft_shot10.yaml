@@ -4,15 +4,17 @@ seed: 0
 
 data:
   dataset: Aircraft
-  root: /your/path/to/datasets
+  root: ${DIFFDA_ROOT}/datasets
   resolution: 224
   num_classes: 100
   examples_per_class: 10
 
 generation:
   method: RealGuidance
-  exp: real_guidance_aircraft_sd15_seed42
-  root_dir: /your/path/to/DiffDA-Eval/generated_images
+  exp: real_guidance_aircraft_sd15_seed0
+  root_dir: ${DIFFDA_ROOT}/DiffDA-Eval/generated_images
+  utilize_way: GRR
+  replace_prob: 0.3
 
 model:
   arch: resnet50
