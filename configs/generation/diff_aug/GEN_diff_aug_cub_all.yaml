@@ -1,12 +1,12 @@
-exp_name: GEN_diff_aug_cifar100
+exp_name: GEN_diff_aug_cub_all
 task: generation
 seed: 0
 
 data:
-  dataset: CIFAR100
+  dataset: Birds
   root: ${DIFFDA_ROOT}/datasets
   resolution: 512
-  num_classes: 100
+  num_classes: 200
   examples_per_class: -1
 
 generation:
@@ -17,5 +17,5 @@ generation:
   augment_ratio: 5
   strength: 0.9
   root_dir: ${DIFFDA_ROOT}/DiffDA-Eval/generated_images
-  ti_embeds: ${DIFFDA_ROOT}/DiffDA-Eval/finetuned_generators/text_inversion/CIFAR100_shot-1_seed0
-  db_lora_weights: ${DIFFDA_ROOT}/DiffDA-Eval/finetuned_generators/dreambooth/TEmb_CIFAR100_shot-1_seed0
+  ti_embeds: ${DIFFDA_ROOT}/DiffDA-Eval/finetuned_generators/text_inversion/Birds_shot-1_seed0
+  db_lora_weights: ${DIFFDA_ROOT}/DiffDA-Eval/finetuned_generators/dreambooth/TEmb_Birds_shot-1_seed0
