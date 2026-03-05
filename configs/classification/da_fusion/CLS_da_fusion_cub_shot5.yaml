@@ -4,18 +4,16 @@ seed: 0
 
 data:
   dataset: Birds
-  root: /your/path/to/datasets
+  root: ${DIFFDA_ROOT}/datasets
   resolution: 224
   num_classes: 200
   examples_per_class: 5
 
 generation:
   method: DAFusion
-  exp:
-    0: da_fusion_cub_shot5_sd15_seed0_05061721
-    1: da_fusion_cub_shot5_sd15_seed1_05151416
-    2: da_fusion_cub_shot5_sd15_seed2_05151455
-  root_dir: /your/path/to/DiffDA-Eval/generated_images
+  exp: GEN_da_fusion_cub_shot5_seed0
+  root_dir: ${DIFFDA_ROOT}/DiffDA-Eval/generated_images
+  utilize_way: GRR
   replace_prob: 0.5
 
 model:

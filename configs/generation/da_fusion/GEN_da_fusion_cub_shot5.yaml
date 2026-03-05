@@ -4,20 +4,17 @@ seed: 0
 
 data:
   dataset: Birds
-  root: /your/path/to/datasets
+  root: ${DIFFDA_ROOT}/datasets
   resolution: 512
   num_classes: 200
   examples_per_class: 5
 
 generation:
   method: DAFusion
-  sd_model: /your/path/to/ckpts/stable-diffusion-v1-5
+  sd_model: ${DIFFDA_ROOT}/ckpts/stable-diffusion-v1-5
   scheduler: DPMSolver++
   num_inference_steps: 25
   augment_ratio: 5
-  strength: [0.25, 0.5, 0.75, 1.0]
-  root_dir: /your/path/to/DiffDA-Eval/generated_images
-  ti_embeds:
-    0: /your/path/to/DiffDA-Eval/finetuned_generators/text_inversion/Birds_shot5_seed0
-    1: /your/path/to/DiffDA-Eval/finetuned_generators/text_inversion/Birds_shot5_seed1
-    2: /your/path/to/DiffDA-Eval/finetuned_generators/text_inversion/Birds_shot5_seed2
+  strength: 0.9
+  root_dir: ${DIFFDA_ROOT}/DiffDA-Eval/generated_images
+  ti_embeds: ${DIFFDA_ROOT}/DiffDA-Eval/finetuned_generators/text_inversion/Birds_shot5_seed0
