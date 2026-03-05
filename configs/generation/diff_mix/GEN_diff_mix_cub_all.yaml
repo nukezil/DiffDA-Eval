@@ -1,4 +1,4 @@
-exp_name: GEN_diff_aug_cub_all
+exp_name: GEN_diff_mix_cub_all
 task: generation
 seed: 0
 
@@ -10,7 +10,7 @@ data:
   examples_per_class: -1
 
 generation:
-  method: DiffAug
+  method: DiffMix
   sd_model: ${DIFFDA_ROOT}/ckpts/stable-diffusion-v1-5
   scheduler: DPMSolver++
   num_inference_steps: 25

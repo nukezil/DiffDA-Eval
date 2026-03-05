@@ -4,16 +4,16 @@ seed: 0
 
 data:
   dataset: Skin-10
-  root: /your/path/to/datasets
+  root: ${DIFFDA_ROOT}/datasets
   resolution: 224
   num_classes: 7
   examples_per_class: -1
 
 generation:
   method: DiffMix
-  exp: diff_mix_skin_shot10_sd15_seed0
-  root_dir: /your/path/to/DiffDA-Eval/generated_images
-  replace_prob: 0.5
+  exp: GEN_diff_mix_skin_shot10_seed0
+  root_dir: ${DIFFDA_ROOT}/DiffDA-Eval/generated_images
+  utilize_way: FC
   strength: 0.7
   gamma: 0.5
 
@@ -22,7 +22,7 @@ model:
   weights: None
 
 training:
-  batch_size: 256
+  batch_size: 32
   optimizer: sgd
   lr: 0.01
   momentum: 0.9
