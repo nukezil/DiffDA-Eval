@@ -302,6 +302,47 @@ class GlobalRandomMixDataset(Dataset):
         sample_dict["y"] = y_onehot
         return sample_dict
 
+
+class DiffMixConcatDataset(Dataset):
+    def __init__(self, original_dset, generated_dset: GeneratedDataset, cfg):
+        self.original_dset = original_dset
+        self.generated_dset = generated_dset
+        self.generated_root = os.path.join(cfg.generation.root_dir, cfg.data.dataset, cfg.generation.exp)
+        self.strength = cfg.generation.strength
+        self.gamma = cfg.generation.gamma
+        if isinstance(self.original_dset.class_names, dict):
+            self.class_names = self.original_dset.class_names.values()
+        elif isinstance(self.original_dset.class_names, list):
+            self.class_names = self.original_dset.class_names
+        else:
+            raise ValueError("Unknown class_names type")
+
+    def __len__(self):
+        return len(self.original_dset) + len(self.generated_dset)
+
+    def __getitem__(self, idx):
+        if idx < len(self.original_dset):
+            sample_dict = self.original_dset[idx]
+            src_y = sample_dict["y"]
+            y_onehot = F.one_hot(torch.tensor(src_y), num_classes=len(self.class_names)).float()
+        else:
+            idx -= len(self.original_dset)
+            sample_dict = self.generated_dset[idx]
+            src_y = sample_dict["y"]
+            src_class = sample_dict["class_name"]
+            y_onehot = F.one_hot(torch.tensor(src_y), num_classes=len(self.class_names)).float()
+            tgt_class = extract_tgt_class(sample_dict["file_name"], self.class_names)
+            tgt_y = self.original_dset.class_to_idx[tgt_class]
+            tgt_weight = math.pow(self.strength, self.gamma)
+            y_onehot[src_y] = 1 - tgt_weight
+            y_onehot[tgt_y] = tgt_weight
+            sample_dict["x"] = sample_dict["x"]
+            sample_dict["class_name"] = f"{(1 - tgt_weight):.2f}{src_class}+{tgt_weight:.2f}{tgt_class}"
+            sample_dict["file_name"] = sample_dict["file_name"]
+        sample_dict["y"] = y_onehot
+        return sample_dict
+
+
 def get_transformation(cfg, split='train'):
     if cfg.data.resolution == 224:
         resize_size = 256

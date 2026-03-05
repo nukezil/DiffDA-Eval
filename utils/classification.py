@@ -6,7 +6,7 @@ from torch.amp import autocast
 from torchvision.models import resnet50, vit_b_16, mobilenet_v3_large
 from torch.utils.data import DataLoader
 from data.wrapper import GeneratedDataset, PartialConcatDataset, PartialGeneratedDataset, \
-    LocalRandomReplaceDataset, GlobalRandomReplaceDataset, GlobalRandomMixDataset
+    LocalRandomReplaceDataset, GlobalRandomReplaceDataset, GlobalRandomMixDataset, DiffMixConcatDataset
 
 def perform_augmentation(cfg, original_dset, transform_train):
     from omegaconf import OmegaConf
@@ -18,46 +18,33 @@ def perform_augmentation(cfg, original_dset, transform_train):
         utilize_way = OmegaConf.select(cfg, "generation.utilize_way")
         if utilize_way is not None:
             # manually decide the utilize way for analysis
-            if utilize_way == "TC":
-                # Total Concat
-                augmented_dataset = PartialConcatDataset(original_dset, generated_dset, cfg)
-            elif utilize_way == "TR":
-                # Total Replace
+            if utilize_way == "FC":
+                # Full Concatenation
+                if cfg.data.examples_per_class == -1 and not (
+                        cfg.data.dataset.startswith("Blood") or cfg.data.dataset.startswith("Skin")):
+                    # just concat original_dset with full generated_dset
+                    if aug_method == "DiffMix":
+                        augmented_dataset = DiffMixConcatDataset(original_dset, generated_dset, cfg)
+                    else:
+                        augmented_dataset = torch.utils.data.ConcatDataset([original_dset, generated_dset])
+                else:
+                    augmented_dataset = PartialConcatDataset(original_dset, generated_dset, cfg)
+            elif utilize_way == "FR":
+                # Full Replacement
                 augmented_dataset = PartialGeneratedDataset(original_dset, generated_dset, cfg)
             elif utilize_way == "LRR":
-                # Local Random Replace
+                # Local Random Replacement
                 augmented_dataset = LocalRandomReplaceDataset(original_dset, generated_dset, cfg)
             elif utilize_way == "GRR":
-                # Global Random Replace
-                augmented_dataset = GlobalRandomReplaceDataset(original_dset, generated_dset, cfg)
+                # Global Random Replacement
+                if aug_method == "DiffMix":
+                    augmented_dataset = GlobalRandomMixDataset(original_dset, generated_dset, cfg)
+                else:
+                    augmented_dataset = GlobalRandomReplaceDataset(original_dset, generated_dset, cfg)
             else:
                 raise NotImplementedError
         else:
-            # decided by the generation method
-            if aug_method in ["RealGuidance", "GIF"]:
-                # concat
-                if cfg.data.examples_per_class == -1 and not (cfg.data.dataset.startswith("Blood") or cfg.data.dataset.startswith("Skin")):
-                    # just concat original_dset with full generated_dset
-                    augmented_dataset = torch.utils.data.ConcatDataset([original_dset, generated_dset])
-                else:
-                    augmented_dataset = PartialConcatDataset(original_dset, generated_dset, cfg)
-            elif aug_method in ["DAFusion", "DiffII"]:
-                # randomly replace (local)
-                augmented_dataset = LocalRandomReplaceDataset(original_dset, generated_dset, cfg)
-            elif aug_method in ["DiffAug"]:
-                # randomly replace (global)
-                augmented_dataset = GlobalRandomReplaceDataset(original_dset, generated_dset, cfg)
-            elif aug_method in ["DiffMix"]:
-                # randomly mixup and replace (global)
-                augmented_dataset = GlobalRandomMixDataset(original_dset, generated_dset, cfg)
-            elif aug_method in ["DiffuseMix"]:
-                # directly use generated dataset
-                if cfg.data.examples_per_class == -1:
-                    augmented_dataset = generated_dset
-                else:
-                    augmented_dataset = PartialGeneratedDataset(original_dset, generated_dset, cfg)
-            else:
-                raise NotImplementedError
+            raise ValueError("Please specify the utilize way for augmentation!")
 
     return augmented_dataset
 
