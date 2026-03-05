@@ -4,20 +4,20 @@ seed: 0
 
 data:
   dataset: Blood-5
-  root: /your/path/to/datasets
+  root: ${DIFFDA_ROOT}/datasets
   resolution: 512
   num_classes: 8
   examples_per_class: -1
 
 generation:
   method: GIF
-  sd_model: /your/path/to/ckpts/stable-diffusion-v1-5
-  clip_model: /your/path/to/ckpts/CLIP/ViT-B-32.pt
+  sd_model: ${DIFFDA_ROOT}/ckpts/stable-diffusion-v1-5
+  clip_model: ${DIFFDA_ROOT}/ckpts/CLIP/ViT-B-32.pt
   scheduler: DPMSolver++
   num_inference_steps: 25
   augment_ratio: 5
-  strength: 0.5
+  strength: 0.3
   constraint_value: 0.1
-  root_dir: /your/path/to/DiffDA-Eval/generated_images
-  ti_embeds: /your/path/to/DiffDA-Eval/finetuned_generators/text_inversion/Blood-5_shot-1_seed0
-  db_lora_weights: /your/path/to/DiffDA-Eval/finetuned_generators/dreambooth/TEmb_Blood-5_shot-1_seed0
+  root_dir: ${DIFFDA_ROOT}/DiffDA-Eval/generated_images
+  ti_embeds: ${DIFFDA_ROOT}/DiffDA-Eval/finetuned_generators/text_inversion/Blood-5_shot-1_seed0
+  db_lora_weights: ${DIFFDA_ROOT}/DiffDA-Eval/finetuned_generators/dreambooth/TEmb_Blood-5_shot-1_seed0

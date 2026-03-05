@@ -1,13 +1,13 @@
-exp_name: GEN_gif_imagenet100
+exp_name: GEN_gif_aircraft_shot1
 task: generation
 seed: 0
 
 data:
-  dataset: ImageNet100
+  dataset: Aircraft
   root: ${DIFFDA_ROOT}/datasets
   resolution: 512
   num_classes: 100
-  examples_per_class: -1
+  examples_per_class: 1
 
 generation:
   method: GIF
@@ -17,5 +17,5 @@ generation:
   num_inference_steps: 25
   augment_ratio: 5
   constraint_value: 0.8
-  strength: 0.9
+  strength: 0.1
   root_dir: ${DIFFDA_ROOT}/DiffDA-Eval/generated_images
